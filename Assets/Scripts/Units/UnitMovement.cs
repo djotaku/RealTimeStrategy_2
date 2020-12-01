@@ -36,7 +36,7 @@ public class UnitMovement : NetworkBehaviour
     {
         if(!hasAuthority) { return; }
 
-        if(!Mouse.current.leftButton.wasPressedThisFrame) { return; }
+        if(!Mouse.current.rightButton.wasPressedThisFrame) { return; }
 
         Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
