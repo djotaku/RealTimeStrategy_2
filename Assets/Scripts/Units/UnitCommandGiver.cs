@@ -22,7 +22,27 @@ public class UnitCommandGiver : MonoBehaviour
 
         if(!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask)) { return;  } // we've hit something - let's move to it
 
-        TryMove(hit.point);
+        if(hit.collider.TryGetComponent<Targetable>(out Targetable target))
+        {
+            if(target.hasAuthority)  // to keep us from targeting our own units
+            {
+                TryMove(hit.point);
+                return;
+            }
+
+            TryTarget(target);
+            return;
+        }
+        
+        TryMove(hit.point); // if didn't target anything, just move
+    }
+
+    private void TryTarget(Targetable target)
+    {
+        foreach (Unit unit in unitSelectionHandler.SelectedUnits)
+        {
+            unit.GetTargeter().CmdSetTarget(target.gameObject);
+        }
     }
 
     private void TryMove(Vector3 point)

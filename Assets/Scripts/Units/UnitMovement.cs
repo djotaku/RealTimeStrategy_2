@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class UnitMovement : NetworkBehaviour
 {
     [SerializeField] private NavMeshAgent agent = null;
+    [SerializeField] private Targeter targeter = null;
 
     #region Server
     [ServerCallback] // only server calls this, not client
@@ -21,6 +22,7 @@ public class UnitMovement : NetworkBehaviour
     [Command]
     public void CmdMove(Vector3 position)
     {
+        targeter.ClearTarget();
 
         if(!NavMesh.SamplePosition(position, out NavMeshHit hit, 1f, NavMesh.AllAreas)) { return; }
 
