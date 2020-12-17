@@ -5,7 +5,12 @@ using UnityEngine;
 
 public class Targeter : NetworkBehaviour
 {
-    [SerializeField] private Targetable target = null;
+    private Targetable target = null;
+
+    public Targetable GetTarget()
+    {
+        return target;
+    }
 
     #region Server
 
