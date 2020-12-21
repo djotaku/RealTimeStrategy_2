@@ -8,10 +8,12 @@ public class Health : NetworkBehaviour
 {
     [SerializeField] private int maxHealth = 100;
 
-    [SyncVar]
+    [SyncVar(hook = nameof(HandleHealthUpdated))]
     private int currentHealth;
 
     public event Action ServerOnDie;
+
+    public event Action<int, int> ClientOnHealthUpdated;
 
     #region Server
 
@@ -37,6 +39,11 @@ public class Health : NetworkBehaviour
     #endregion
 
     #region Cleint
+
+    private void HandleHealthUpdated(int oldHealth, int newHealth)
+    {
+        ClientOnHealthUpdated?.Invoke(newHealth, maxHealth); // this allows the Healthdisplay to know the health has udpated and it should update the UI. Or anything else that wants to listen for the event
+    }
 
     #endregion
 
