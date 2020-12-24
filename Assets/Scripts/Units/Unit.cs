@@ -7,6 +7,7 @@ using System;
 
 public class Unit : NetworkBehaviour
 {
+    [SerializeField] private Health health = null;
     [SerializeField] private UnitMovement unitMovement = null;
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private UnityEvent onSelected = null;
@@ -33,27 +34,33 @@ public class Unit : NetworkBehaviour
     public override void OnStartServer()
     {
         ServerOnUnitSpawned?.Invoke(this);
+        health.ServerOnDie += ServerHandleDie; // subscribing to the event
     }
 
 
     public override void OnStopServer()
     {
-        ServerOnUnitDespawned?.Invoke(this);
+        ServerOnUnitDespawned?.Invoke(this);  // invokes this event whenever a unit dies
+        health.ServerOnDie -= ServerHandleDie; // unsubscribing to the event
+    }
+
+    [Server]
+    private void ServerHandleDie()
+    {
+        NetworkServer.Destroy(gameObject);
     }
     #endregion
 
     #region Client
 
-    public override void OnStartClient()
-    {
-        if(!isClientOnly ||  !hasAuthority) { return; }
-        
+    public override void OnStartAuthority()  // switching to authority means we can get rid of the if statement we had before
+    {        
         AuthorityOnUnitSpawned?.Invoke(this);
     }
 
     public override void OnStopClient()
     {
-        if (!isClientOnly || !hasAuthority) { return; }
+        if (!hasAuthority) { return; }
 
         AuthorityOnUnitDespawned?.Invoke(this);
     }

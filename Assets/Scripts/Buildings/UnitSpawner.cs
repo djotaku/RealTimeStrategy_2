@@ -6,10 +6,26 @@ using UnityEngine.EventSystems;
 
 public class UnitSpawner : NetworkBehaviour, IPointerClickHandler
 {
+    [SerializeField] private Health health = null;
     [SerializeField] private GameObject unitPrefab = null;
     [SerializeField] private Transform unitSpawnPoint = null;
 
     #region Server
+    public override void OnStartServer()
+    {
+        health.ServerOnDie += ServerHandleDie; // subscribing to the event
+    }
+
+    public override void OnStopServer()
+    {
+        health.ServerOnDie -= ServerHandleDie; // unsubscribing to the event
+    }
+
+    [Server]
+    private void ServerHandleDie()
+    {
+        NetworkServer.Destroy(gameObject); // how to get rid of game objects on teh server
+    }
 
     [Command]private void CmdSpawnUnit()
     {
