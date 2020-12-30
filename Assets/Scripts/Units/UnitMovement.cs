@@ -9,6 +9,18 @@ public class UnitMovement : NetworkBehaviour
     [SerializeField] private float chaseRange = 10f;
 
     #region Server
+
+    public override void OnStartServer()
+    {
+        GameOverHandler.ServerOnGameOver += ServerHandleGameOver;
+
+    }
+
+    public override void OnStopServer()
+    {
+        GameOverHandler.ServerOnGameOver -= ServerHandleGameOver;
+    }
+
     [ServerCallback] // only server calls this, not client
     private void Update()
     {
@@ -45,6 +57,11 @@ public class UnitMovement : NetworkBehaviour
         if(!NavMesh.SamplePosition(position, out NavMeshHit hit, 1f, NavMesh.AllAreas)) { return; }
 
         agent.SetDestination(hit.position);
+    }
+
+    private void ServerHandleGameOver()
+    {
+        agent.ResetPath();
     }
 
     #endregion
