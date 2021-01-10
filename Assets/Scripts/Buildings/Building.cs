@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Building : NetworkBehaviour
 {
+    [SerializeField] private GameObject buildingPreview = null;
     [SerializeField] private Sprite icon = null;
     [SerializeField] private int id = -1;  // purposely an invalid value as default
     [SerializeField] private int price = 100;
@@ -17,6 +18,11 @@ public class Building : NetworkBehaviour
     public static event Action<Building> AuthorityOnBuildingSpawned; // this can be invoked 
     public static event Action<Building> AuthorityOnBuildingDespawned; // this can be invoked 
 
+
+    public GameObject GetBuildingPreview()
+    {
+        return buildingPreview;
+    }
 
     public Sprite GetIcon()
     {
