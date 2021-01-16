@@ -4,4 +4,4 @@ Going through the lessons for this GameDev.TV class: [Unity Multiplay: Intermedi
 
 This is for the second part where they actually make the RTS tank game. 
 
-current progress: https://youtu.be/mkOUhDlcc00
+current progress: https://youtu.be/cG5IYbYeU7A
