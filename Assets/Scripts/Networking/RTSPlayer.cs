@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class RTSPlayer : NetworkBehaviour
 {
+    [SerializeField] private LayerMask buildingBlockLayer = new LayerMask();
     [SerializeField] private Building[] buildings = new Building[0]; // array of all possible buildigns we can build instead of list since it doesn't change size while we are playing
+    [SerializeField] private float buildingRangeLimit = 5f;
 
     [SyncVar(hook = nameof(ClientHandleResourcesUpdated))]
     private int resources = 500;  // server needs to manage - can't trust player
@@ -36,6 +38,25 @@ public class RTSPlayer : NetworkBehaviour
     {
         resources = newResources;
     }
+
+    public bool CanPlaceBuilding(BoxCollider buildingCollider, Vector3 point)
+    {
+        if (Physics.CheckBox(point + buildingCollider.center, buildingCollider.size / 2, Quaternion.identity, buildingBlockLayer))
+        {
+            return false; // we are overlapping - do not allow it to be placed
+        }
+
+        foreach (Building building in myBuildings)
+        {
+            if ((point - building.transform.position).sqrMagnitude <= buildingRangeLimit * buildingRangeLimit)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     #region Server
     public override void OnStartServer()
@@ -70,9 +91,17 @@ public class RTSPlayer : NetworkBehaviour
 
         if(buildingToPlace == null) { return; }
 
+        if(resources < buildingToPlace.GetPrice()) { return; }  // make sure we have enough "money"
+
+        BoxCollider buildingCollider = buildingToPlace.GetComponent<BoxCollider>();
+
+        if(!CanPlaceBuilding(buildingCollider, point)) { return; }
+
         GameObject buildingInstance = Instantiate(buildingToPlace.gameObject, point, buildingToPlace.transform.rotation);
 
         NetworkServer.Spawn(buildingInstance, connectionToClient);
+
+        SetResources(resources - buildingToPlace.GetPrice());
     }
 
     private void ServerHandleUnitsSpawned(Unit unit)
