@@ -130,10 +130,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2130712694105803946, guid: 5750406202e91114eac4acbc9d83e070, type: 3}
-      propertyPath: building
-      value: 
-      objectReference: {fileID: 596709341591397689, guid: 5a1fff5afd77d6a4f98559da5956154a, type: 3}
     - target: {fileID: 6182301964800728064, guid: 5750406202e91114eac4acbc9d83e070, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -287,6 +283,7 @@ GameObject:
   - component: {fileID: 573281749}
   - component: {fileID: 573281748}
   - component: {fileID: 573281747}
+  - component: {fileID: 573281750}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -359,6 +356,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &573281750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573281746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1001 &747281011
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -410,6 +438,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3118683332328924778, guid: f5d005c0a59727445bea8f4ad922696a, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118683332328924778, guid: f5d005c0a59727445bea8f4ad922696a, type: 3}
+      propertyPath: spawnPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 596709341591397688, guid: 4890a64612426fb41a49d3f19b23bebb, type: 3}
+    - target: {fileID: 3118683332328924778, guid: f5d005c0a59727445bea8f4ad922696a, type: 3}
+      propertyPath: spawnPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 596709341591397688, guid: bedffc3cf1f03c34aaeba51de2c141f3, type: 3}
+    - target: {fileID: 3118683332328924778, guid: f5d005c0a59727445bea8f4ad922696a, type: 3}
+      propertyPath: spawnPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 571392638455388400, guid: 64b4b4d78b5f3644d9bf5496610b7fd1, type: 3}
+    - target: {fileID: 3118683332328924778, guid: f5d005c0a59727445bea8f4ad922696a, type: 3}
+      propertyPath: spawnPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 6148234030790802603, guid: 866332fa6262353439e47a61291fabb7, type: 3}
+    - target: {fileID: 3118683332328924778, guid: f5d005c0a59727445bea8f4ad922696a, type: 3}
+      propertyPath: spawnPrefabs.Array.data[4]
+      value: 
+      objectReference: {fileID: 152170739229225029, guid: 4019ce62b7da4564fa139a76c69007e8, type: 3}
+    - target: {fileID: 3118683332328924778, guid: f5d005c0a59727445bea8f4ad922696a, type: 3}
+      propertyPath: spawnPrefabs.Array.data[5]
+      value: 
+      objectReference: {fileID: 134298710132771498, guid: 0f0ea83c9b0c8d045bd51f7208238aa7, type: 3}
+    - target: {fileID: 3118683332328924778, guid: f5d005c0a59727445bea8f4ad922696a, type: 3}
+      propertyPath: spawnPrefabs.Array.data[6]
+      value: 
+      objectReference: {fileID: 2828797022745242365, guid: 8ad55cfc536a31d43aba8af662b5254d, type: 3}
+    - target: {fileID: 3118683332328924778, guid: f5d005c0a59727445bea8f4ad922696a, type: 3}
+      propertyPath: spawnPrefabs.Array.data[7]
+      value: 
+      objectReference: {fileID: 8101455950370290424, guid: fe6a959b7955bda448dbb2ddf32767d5, type: 3}
+    - target: {fileID: 3118683332328924778, guid: f5d005c0a59727445bea8f4ad922696a, type: 3}
+      propertyPath: spawnPrefabs.Array.data[8]
+      value: 
+      objectReference: {fileID: 2892177631534964322, guid: 10112f3b2a4b6044188b4cde0058c38a, type: 3}
     - target: {fileID: 3118683332328924782, guid: f5d005c0a59727445bea8f4ad922696a, type: 3}
       propertyPath: m_Name
       value: NetworkManager

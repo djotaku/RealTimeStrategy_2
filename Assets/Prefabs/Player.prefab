@@ -112,8 +112,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1281
   buildings:
-  - {fileID: 596709341591397689, guid: 5a1fff5afd77d6a4f98559da5956154a, type: 3}
+  - {fileID: 134298710132771499, guid: 0f0ea83c9b0c8d045bd51f7208238aa7, type: 3}
   - {fileID: 596709341591397689, guid: 4890a64612426fb41a49d3f19b23bebb, type: 3}
+  - {fileID: 2892177631534964323, guid: 10112f3b2a4b6044188b4cde0058c38a, type: 3}
   buildingRangeLimit: 5
 --- !u!114 &4850173627508910121
 MonoBehaviour:
