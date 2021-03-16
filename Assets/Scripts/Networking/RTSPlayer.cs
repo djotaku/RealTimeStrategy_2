@@ -15,7 +15,10 @@ public class RTSPlayer : NetworkBehaviour
     private int resources = 500;  // server needs to manage - can't trust player
     [SyncVar(hook =nameof(AuthorityHandlePartyOwnerStateUpdated))]
     private bool isPartyOwner = false;
+    [SyncVar(hook =nameof(ClientHandleDisplayNameUpdated))]
+    private string displayName;
 
+    public static event Action ClientOnInfoUpdated;
     public event Action<int> ClientOnResourcesUpdated;
     public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
 
@@ -23,6 +26,11 @@ public class RTSPlayer : NetworkBehaviour
     private List<Unit> myUnits = new List<Unit>();
     private List<Building> myBuildings = new List<Building>();
 
+    public string GetDisplayName()
+    {
+        return displayName;
+    }
+    
     public bool GetIsPartyOwner()
     {
         return isPartyOwner;
@@ -52,6 +60,12 @@ public class RTSPlayer : NetworkBehaviour
         return resources;
     }
 
+    
+    [Server]
+    public void SetDisplayName(string displayName)
+    {
+        this.displayName = displayName;
+    }
     
     [Server]
     public void SetPartyOwner(bool state)
@@ -97,6 +111,8 @@ public class RTSPlayer : NetworkBehaviour
         Unit.ServerOnUnitDespawned += ServerHandleUnitsDespawned; // subscribing to an event
         Building.ServerOnBuildingSpawned += ServerHandleBuildingSpawned;
         Building.ServerOnBuildingDespawned += ServerHandleBuildingDespawned;
+
+        DontDestroyOnLoad(gameObject);
     }
 
     public override void OnStopServer()
@@ -190,11 +206,15 @@ public class RTSPlayer : NetworkBehaviour
     {
         if (NetworkServer.active) { return; }
 
+        DontDestroyOnLoad(gameObject);
+
         ((RTSNetworkManager)NetworkManager.singleton).Players.Add(this);
     }
 
     public override void OnStopClient()
     {
+        ClientOnInfoUpdated?.Invoke();
+
         if (!isClientOnly) { return; }
 
         ((RTSNetworkManager)NetworkManager.singleton).Players.Remove(this);
@@ -205,6 +225,11 @@ public class RTSPlayer : NetworkBehaviour
         Unit.AuthorityOnUnitDespawned -= AuthorityHandleUnitsDespawned; // subscribing to an event
         Building.AuthorityOnBuildingSpawned -= AuthorityHandleBuildingSpawned;
         Building.AuthorityOnBuildingDespawned -= AuthorityHandleBuildingDespawned;
+    }
+
+    private void ClientHandleDisplayNameUpdated(string olddisplayName, string newdisplayName)
+    {
+        ClientOnInfoUpdated?.Invoke();
     }
 
     private void ClientHandleResourcesUpdated(int oldResources, int newResources)

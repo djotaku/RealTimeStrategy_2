@@ -10,19 +10,13 @@ public class ResourcesDisplay : MonoBehaviour
 
     private RTSPlayer player;
 
-    private void Update()
+    private void Start()
     {
-        if (player == null)
-        {
-            player = NetworkClient.connection.identity.GetComponent<RTSPlayer>(); // just a hack for now until we create the lobby
-        }
+        player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
 
-        if(player!= null)
-        {
-            ClientHandleResourcesUpdated(player.GetResources()); // first update the UI
+        ClientHandleResourcesUpdated(player.GetResources()); // first update the UI
 
-            player.ClientOnResourcesUpdated += ClientHandleResourcesUpdated; // then update with further resoruce updates
-        }
+        player.ClientOnResourcesUpdated += ClientHandleResourcesUpdated; // then update with further resoruce updates
     }
 
     private void OnDestroy()
