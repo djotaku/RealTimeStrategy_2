@@ -1,5 +1,7 @@
 // vis2k: GUILayout instead of spacey += ...; removed Update hotkeys to avoid
 // confusion if someone accidentally presses one.
+
+using System;
 using UnityEngine;
 
 namespace Mirror
@@ -11,7 +13,7 @@ namespace Mirror
     [DisallowMultipleComponent]
     [AddComponentMenu("Network/NetworkManagerHUD")]
     [RequireComponent(typeof(NetworkManager))]
-    [HelpURL("https://mirror-networking.com/docs/Components/NetworkManagerHUD.html")]
+    [HelpURL("https://mirror-networking.com/docs/Articles/Components/NetworkManagerHUD.html")]
     public class NetworkManagerHUD : MonoBehaviour
     {
         NetworkManager manager;
@@ -19,6 +21,7 @@ namespace Mirror
         /// <summary>
         /// Whether to show the default control HUD at runtime.
         /// </summary>
+        [Obsolete("showGUI will be removed unless someone has a valid use case. Simply use or don't use the HUD component.")]
         public bool showGUI = true;
 
         /// <summary>
@@ -38,8 +41,9 @@ namespace Mirror
 
         void OnGUI()
         {
-            if (!showGUI)
-                return;
+#pragma warning disable 618
+            if (!showGUI) return;
+#pragma warning restore 618
 
             GUILayout.BeginArea(new Rect(10 + offsetX, 40 + offsetY, 215, 9999));
             if (!NetworkClient.isConnected && !NetworkServer.active)

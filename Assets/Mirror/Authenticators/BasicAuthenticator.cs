@@ -6,8 +6,6 @@ namespace Mirror.Authenticators
     [AddComponentMenu("Network/Authenticators/BasicAuthenticator")]
     public class BasicAuthenticator : NetworkAuthenticator
     {
-        static readonly ILogger logger = LogFactory.GetLogger(typeof(BasicAuthenticator));
-
         [Header("Custom Properties")]
 
         // set these in the inspector
@@ -45,6 +43,16 @@ namespace Mirror.Authenticators
         }
 
         /// <summary>
+        /// Called on server from StopServer to reset the Authenticator
+        /// <para>Server message handlers should be registered in this method.</para>
+        /// </summary>
+        public override void OnStopServer()
+        {
+            // unregister the handler for the authentication request
+            NetworkServer.UnregisterHandler<AuthRequestMessage>();
+        }
+
+        /// <summary>
         /// Called on server from OnServerAuthenticateInternal when a client needs to authenticate
         /// </summary>
         /// <param name="conn">Connection to client.</param>
@@ -60,7 +68,7 @@ namespace Mirror.Authenticators
         /// <param name="msg">The message payload</param>
         public void OnAuthRequestMessage(NetworkConnection conn, AuthRequestMessage msg)
         {
-            if (logger.LogEnabled()) logger.LogFormat(LogType.Log, "Authentication Request: {0} {1}", msg.authUsername, msg.authPassword);
+            // Debug.LogFormat(LogType.Log, "Authentication Request: {0} {1}", msg.authUsername, msg.authPassword);
 
             // check the credentials by calling your web server, database table, playfab api, or any method appropriate.
             if (msg.authUsername == username && msg.authPassword == password)
@@ -119,6 +127,16 @@ namespace Mirror.Authenticators
         }
 
         /// <summary>
+        /// Called on client from StopClient to reset the Authenticator
+        /// <para>Client message handlers should be unregistered in this method.</para>
+        /// </summary>
+        public override void OnStopClient()
+        {
+            // unregister the handler for the authentication response
+            NetworkClient.UnregisterHandler<AuthResponseMessage>();
+        }
+
+        /// <summary>
         /// Called on client from OnClientAuthenticateInternal when a client needs to authenticate
         /// </summary>
         /// <param name="conn">Connection of the client.</param>
@@ -142,14 +160,14 @@ namespace Mirror.Authenticators
         {
             if (msg.code == 100)
             {
-                if (logger.LogEnabled()) logger.LogFormat(LogType.Log, "Authentication Response: {0}", msg.message);
+                // Debug.LogFormat(LogType.Log, "Authentication Response: {0}", msg.message);
 
                 // Authentication has been accepted
                 ClientAccept(conn);
             }
             else
             {
-                logger.LogFormat(LogType.Error, "Authentication Response: {0}", msg.message);
+                Debug.LogError($"Authentication Response: {msg.message}");
 
                 // Authentication has been rejected
                 ClientReject(conn);
