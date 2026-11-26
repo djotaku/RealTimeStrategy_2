@@ -4,7 +4,7 @@
 
 Going through the lessons for this GameDev.TV class: [Unity Multiplay: Intermediate C# Coding and Networking.](https://www.gamedev.tv/p/unity-multiplayer?coupon=0479D91AE41D)
 
-The class has been archived and the recommended version to learn how to make multiplayer games with Unity is this one: https://github.com/djotaku/RealTimeStrategy_2
+The class has been archived and the recommended version to learn how to make multiplayer games with Unity is this one: https://gamedev.tv/courses/unity-multiplayer-netcode 
 
 This is for the second part where they actually make the RTS tank game. 
 
